@@ -7,8 +7,8 @@ in-sample risk-adjusted performance, and how well does an untouched
 chronological holdout reveal the inflation?
 
 The current project is an educational implementation, not evidence of
-profitable trading. The next experiments should distinguish synthetic
-selection effects from genuine predictive performance.
+profitable trading. We have now measured synthetic multiple-comparison
+effects, but not any actual market predictive performance.
 
 ## Completed baseline
 
@@ -18,20 +18,31 @@ selection effects from genuine predictive performance.
   synthetic strategies.
 - Finite-difference European call valuation checked against Black-Scholes.
 - A paired, simplified blackjack stake-sizing simulation.
+- A 500-replication zero-alpha experiment with nested candidate counts
+  (1, 5, 10, 25, 50, 100), fixed 756/504-day split, Monte Carlo intervals,
+  and a deterministic results CSV.
+- An unadjusted versus Bonferroni-adjusted training-only one-sided
+  normal-approximation comparison and a positive-signal detection control.
+- Added automated tests and CI smoke coverage for the new experiment.
 
-## Phase 1: Repeated synthetic overfitting study
+## Phase 1: Repeated synthetic overfitting study (core complete)
 
-1. Pre-specify the experiment: training length, holdout length, candidate
-   counts, noise scale, and random seed list before examining results.
-2. Run at least 100 independent repetitions under zero expected alpha.
-3. Vary candidate counts (for example 5, 10, 25, 50, 100) while keeping
-   total sample length and split fraction fixed.
-4. Report the training-to-holdout Sharpe gap, distribution of holdout
-   Sharpe ratios, and uncertainty intervals across repetitions.
-5. Compare selection on a single noisy backtest with using multiple
-   independent validation periods.
-6. Include a control with a planted, known weak signal to measure power,
-   false selection, and generalization.
+Completed: fixed configuration (training/holdout lengths, daily volatility,
+candidate counts, seed), 500 independent repetitions under the global null,
+Monte Carlo optimism/holdout intervals, unadjusted versus Bonferroni false
+positive rates, and a positive-signal control with known ground truth.
+Full numeric evidence and reproducibility command are in README.md and
+experiments/overfitting_summary.csv.
+
+Still planned:
+
+1. Evaluate two or more independent chronological validation segments
+   versus a single training backtest, without using final holdout outcomes
+   for method selection.
+2. Add heavier-tailed and autocorrelated null models, where a Gaussian
+   normal approximation may be unreliable.
+3. Compare a predeclared held-out threshold or nonparametric correction
+   with Bonferroni; record detection power and false positive rates.
 
 ## Phase 2: A leakage-safe evaluation framework
 

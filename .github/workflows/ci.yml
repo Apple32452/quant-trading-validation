@@ -30,5 +30,7 @@ jobs:
         run: python quant_models.py black-scholes
       - name: Synthetic backtest
         run: python quant_models.py backtest
+      - name: Repeated synthetic overfitting smoke test
+        run: python overfitting_study.py --repetitions 30 --candidate-counts 1,5,20 --seed 42
       - name: Small blackjack smoke test
         run: python quant_models.py blackjack --sessions 20 --decks 10
