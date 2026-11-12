@@ -1,0 +1,22 @@
+# Python caches and build output
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+build/
+dist/
+*.egg-info/
+
+# Local environments and operating-system files
+.venv/
+venv/
+.env
+.DS_Store
+
+# Data and generated results (add small provenance-checked examples selectively)
+data/raw/
+results/
+*.log
