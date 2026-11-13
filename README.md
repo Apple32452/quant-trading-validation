@@ -1,6 +1,6 @@
 # Quantitative Simulation and Backtest Validation
 
-Three corrected, reproducible Python exercises plus three validation studies:
+Three corrected, reproducible Python exercises plus four validation studies:
 
 1. **Blackjack Monte Carlo.** Simulates Hi-Lo true counts every five cards
    and compares adaptive ($50/$500) with fixed ($50) bets on the same outcomes.
@@ -27,6 +27,10 @@ Three corrected, reproducible Python exercises plus three validation studies:
    intercepts with autocorrelation-robust uncertainty. No fitted model shows
    statistically reliable positive alpha. The SPY final sample was already
    examined, so this is **not fresh independent validation**.
+7. **Pre-registered cross-asset replication.** Locks the QQQ primary test and
+   IWM/EFA secondary tests in GitHub before reading outcomes, with 97.5%
+   block-bootstrap and factor-HAC intervals, identical frozen rules and
+   trading costs. **The primary outperformance/alpha conditions failed.**
 
 ## Repository contents
 
@@ -38,16 +42,20 @@ Three corrected, reproducible Python exercises plus three validation studies:
 | market_backtest.py | Historical backtesting, costs, execution timing, and walk-forward evaluation |
 | fetch_factor_data.py | Downloads SHA-256-pinned official Dartmouth factor archives into ignored raw-data storage |
 | factor_alpha.py | Post-hoc SPY market/CAPM, Fama–French 3/5-factor and momentum alpha diagnostics |
+| cross_asset_replication.py | Fixed QQQ/IWM/EFA test with SPY and own-ETF benchmarks and predeclared uncertainty |
 | tests/test_quant_models.py | Automated checks of payoffs, pricing, Sharpe, and holdout isolation |
 | tests/test_overfitting_study.py | Reproducibility, statistics, CSV, and inflation/guard tests |
 | tests/test_market_backtest.py | Price integrity, causal trades, cost accounting, and holdout isolation tests |
 | tests/test_factor_alpha.py | Synthetic factor parsing, exact-date joining, fixed-rule, and HAC regression tests |
+| tests/test_cross_asset_replication.py | Synthetic-only tests of pre-registered QQQ primary inference and benchmark costs |
 | experiments/overfitting_summary.csv | Fixed-seed, 500-repetition summary with experimental settings and intervals |
 | experiments/real_market_study.json | Frozen SPY market results, settings, cost sensitivity, and uncertainty |
 | experiments/factor_alpha_diagnostic.json | Factor-adjusted SPY diagnostic, full model results, provenance, and limitations |
+| experiments/cross_asset_replication.json | Once-run QQQ/IWM/EFA results, CIs, cost sensitivity, and preregistration links |
 | requirements.txt | NumPy dependency |
 | RESEARCH_PLAN.md | Completed stage and roadmap for leakage-safe, real-data experiments |
-| INDEPENDENT_REPLICATION_PROTOCOL.md | Predesignated QQQ/IWM/EFA and prospective tests; **not yet executed** |
+| INDEPENDENT_REPLICATION_PROTOCOL.md | Immutable *pre-run* QQQ/IWM/EFA and future prospective test specification |
+| REPLICATION_RESULTS.md | Completed replication, failed primary claim, audit trail, caveats, and all outcomes |
 | .github/workflows/ci.yml | GitHub Actions checks across Python 3.11, 3.12, and 3.13 |
 
 The research focus is **selection bias in risk-adjusted backtesting**.
@@ -203,12 +211,60 @@ python3 factor_alpha.py --output experiments/factor_alpha_diagnostic.json
 python3 -m unittest discover -s tests -v
 ~~~
 
-The next **independent replication protocol is already specified but has
-not been run**: [cross-asset and prospective tests](INDEPENDENT_REPLICATION_PROTOCOL.md).
-The QQQ/IWM/EFA paths were not examined while designing the protocol;
-correlations with SPY mean their historical replication is not fully
-independent. The more definitive step is a prospectively logged,
-unchanged-rule evaluation with realistic execution evidence.
+The [cross-asset and prospective protocol](INDEPENDENT_REPLICATION_PROTOCOL.md)
+was published before reading any QQQ/IWM/EFA performance. The **cross-asset
+historical test has now been completed**, with an unfavorable primary result;
+see [the replication report](REPLICATION_RESULTS.md). The future prospective
+test remains unstarted. Correlation with SPY makes this historical attempt
+less independent than truly new, prospective observations.
+
+## Frozen cross-asset replication: completed, primary claim rejected
+
+**Audit:** Strategy, source vintage, symbols, dates, costs, factors,
+bootstrap interval and seed, and QQQ co-primary success criteria were fixed
+in the [pre-run protocol](INDEPENDENT_REPLICATION_PROTOCOL.md), GitHub
+commit `733a75a`. The implementation and synthetic tests were committed
+as `cc3919d` before the single historical test was executed. The result
+uses 903 aligned sessions ending 2023-01-03 through 2026-08-10, with
+5-bp trading costs and one-way test-entry charges for buy-and-hold.
+
+| Frozen rule | Net CAGR | Own ETF buy/hold CAGR | SPY buy/hold CAGR | Net annual mean vs SPY, 97.5% interval | FF5+Mom annual alpha, 97.5% HAC interval |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| **QQQ (primary)** | **18.70%** | 32.77% | 23.22% | -4.27 pp [-11.97, +3.49] | +1.05% [-3.58%, +5.68%] |
+| IWM (secondary) | 9.56% | 17.70% | 23.22% | -12.29 pp [-22.48, -2.09] | -2.40% [-5.84%, +1.04%] |
+| EFA (secondary) | 10.54% | 18.55% | 23.22% | -11.42 pp [-23.14, +0.32] | -2.13% [-10.40%, +6.13%] |
+
+The QQQ strategy underperformed SPY in modeled net CAGR and its paired
+annualized *arithmetic* active-return interval crossed zero. Its positive
+factor-alpha **point estimate is not statistically significant**; the
+confidence interval also crosses zero (nominal two-sided p=0.610).
+Therefore **both pre-registered primary success requirements failed**.
+IWM/EFA also failed to show positive factor-adjusted alpha. All three
+rules lagged their *own* ETF buy-and-hold benchmark in net CAGR.
+
+Volatility targeting limited market exposure and generally reduced
+drawdown; a smaller drawdown is not a proof of a tradable alpha signal.
+QQQ's realized Sharpe versus approximate cash was 1.215 versus SPY's
+1.159, but this did not override the pre-specified criteria. See
+[REPLICATION_RESULTS.md](REPLICATION_RESULTS.md) for the complete
+uncertainty estimates, cost sensitivities, and provenance. The existing
+pre-run protocol is intentionally preserved unchanged as an audit record.
+
+To reproduce the **already-inspected** output (not claim another independent
+test), with locally downloaded and SHA-256-pinned inputs:
+
+~~~bash
+python3 -m pip install -r requirements.txt
+python3 fetch_market_data.py
+python3 fetch_factor_data.py
+python3 cross_asset_replication.py --output experiments/cross_asset_replication.json
+python3 -m unittest discover -s tests -v
+~~~
+
+This is a third-party, adjusted-close historical simulation. It does not
+audit fill prices, financing, execution impact, corporate actions, or
+capacity. Correlated historical ETFs cannot replace the *prospective*
+test proposed in the protocol, which has **not started**.
 
 ## Repeated synthetic overfitting study
 

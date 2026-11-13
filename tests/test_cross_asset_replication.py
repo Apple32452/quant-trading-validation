@@ -141,6 +141,7 @@ class RegisteredMethodTests(unittest.TestCase):
         for name in SYMBOLS:
             row = result["results_by_symbol"][name]
             self.assertEqual(row["ff5_plus_momentum_alpha"]["hac_lags"], 20)
+            self.assertIn("HAC lag-20", row["ff5_plus_momentum_alpha"]["uncertainty_note"])
             self.assertEqual(row["ff5_plus_momentum_alpha"]["observations"], expected_days)
             self.assertEqual(len(row["cost_sensitivity"]), 4)
             self.assertEqual(row["net_strategy_minus_spy_buy_hold"]["confidence"], 0.975)

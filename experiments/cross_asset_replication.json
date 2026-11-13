@@ -1,0 +1,478 @@
+{
+  "data": {
+    "factor_source": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp",
+    "factor_zip_sha256": {
+      "ff3": "96c23b88e651cbfff3740a53f8225e59ee39893371e96385a1d8125ec2cd9c89",
+      "ff5": "e58577223032aa45071a46686f7068900c371b516c9eb04e28e974c34264f84f",
+      "mom": "e56d5bc845544e2993e77353b12c611cfce3149ef754f9b59fc67904ddadd369"
+    },
+    "first_price": "2009-01-02",
+    "first_test_return_end_date": "2023-01-03",
+    "last_price": "2026-08-10",
+    "last_test_return_end_date": "2026-08-10",
+    "source_is_third_party_unverified_adjusted_close_mirror": true,
+    "source_sha256": "361efb287116fc8200582c15fcd315bcce2e218fa1e50b416bacc5acebff37b9",
+    "test_date_alignment": "all four ETF calendars exactly identical; no missing factor observations",
+    "test_sessions": 903
+  },
+  "fixed_method": {
+    "alpha": "FF5+Mom, annualized arithmetic intercept; Newey-West HAC 20 lags",
+    "bootstrap": "5,000 paired circular 20-session blocks; seed 20261114",
+    "buy_hold_test_entry_cost_bps": 5.0,
+    "cash_proxy": "^IRX 13-week annual discount yield / (100*252); approximate",
+    "co_primary_two_sided_confidence": 0.975,
+    "cost_bps": 5.0,
+    "cost_sensitivity_bps": [
+      0.0,
+      5.0,
+      10.0,
+      20.0
+    ],
+    "cross_asset_warning": "same dates and market exposures as seen SPY period; NOT fully independent",
+    "factor_rf": "official one-month FF daily risk-free factor; differs from strategy cash proxy",
+    "prospective_warning": "no live trades, no audited costs or prospective findings",
+    "signal_execution": "after close t observed; execute close t+1; earn t+1 to t+2",
+    "strategy": {
+      "annual_target_volatility": 0.1,
+      "kind": "volatility",
+      "lookback": 20,
+      "name": "volatility_target_20"
+    }
+  },
+  "previously_committed_protocol": {
+    "file": "INDEPENDENT_REPLICATION_PROTOCOL.md",
+    "file_sha256": "9a0a8a2dd62ecc86b84c688f315f691ed0d287c3351e690276a862fbdf204018",
+    "github_commit": "733a75afe72826f4163cca002ed3b12ac2c53bf9",
+    "primary": "QQQ",
+    "secondary": [
+      "IWM",
+      "EFA"
+    ]
+  },
+  "primary_QQQ_two_required_conditions": {
+    "both_conditions_met": false,
+    "judgment": "PRE_REGISTERED_PRIMARY_SUCCESS_CRITERIA_NOT_MET",
+    "qqq_strategy_ff5_momentum_alpha_CI_lower_positive": false,
+    "qqq_strategy_vs_spy_CI_lower_positive": false
+  },
+  "results_by_symbol": {
+    "EFA": {
+      "cost_sensitivity": [
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.10873610858072517,
+            "annualized_turnover": 5.989697517597018,
+            "annualized_volatility": 0.1071785444280541,
+            "days": 903,
+            "max_drawdown": -0.09444757970315154,
+            "mean_invested_fraction": 0.7572067942319596,
+            "sharpe_vs_cash": 0.5963334654944162,
+            "total_return": 0.4475525980250825
+          },
+          "one_way_cost_bps": 0.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.10542049373055068,
+            "annualized_turnover": 5.989697517597018,
+            "annualized_volatility": 0.10718985933933077,
+            "days": 903,
+            "max_drawdown": -0.09528327115014357,
+            "mean_invested_fraction": 0.7572067942319596,
+            "sharpe_vs_cash": 0.5683330348029205,
+            "total_return": 0.4321007892684836
+          },
+          "one_way_cost_bps": 5.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.10211467893439306,
+            "annualized_turnover": 5.989697517597018,
+            "annualized_volatility": 0.10720181575130157,
+            "days": 903,
+            "max_drawdown": -0.09611821651888841,
+            "mean_invested_fraction": 0.7572067942319596,
+            "sharpe_vs_cash": 0.5403353071290902,
+            "total_return": 0.4168133896054469
+          },
+          "one_way_cost_bps": 10.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.09553233506269634,
+            "annualized_turnover": 5.989697517597018,
+            "annualized_volatility": 0.10722765220744611,
+            "days": 903,
+            "max_drawdown": -0.09778587159766039,
+            "mean_invested_fraction": 0.7572067942319596,
+            "sharpe_vs_cash": 0.48434997065394997,
+            "total_return": 0.386724861143106
+          },
+          "one_way_cost_bps": 20.0
+        }
+      ],
+      "ff5_plus_momentum_alpha": {
+        "annualized_alpha_ci95_high": 0.05095388706236073,
+        "annualized_alpha_ci95_low": -0.09362846884858539,
+        "annualized_alpha_se_hac": 0.03688393181057101,
+        "annualized_arithmetic_alpha": -0.02133729089311233,
+        "betas": {
+          "CMA": 0.09638021605444029,
+          "HML": 0.08052128932383386,
+          "Mkt-RF": 0.490432351557736,
+          "Mom": 0.01480702574509134,
+          "RMW": -0.07735902697765318,
+          "SMB": 0.06646213646940954
+        },
+        "ci97_5_high": 0.06133445447189638,
+        "ci97_5_low": -0.10400903625812104,
+        "confidence_preregistered": 0.975,
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA",
+          "Mom"
+        ],
+        "hac_lags": 20,
+        "observations": 903,
+        "p_holm_secondary_two_tests": 0.5629277623107446,
+        "p_two_sided_nominal": 0.5629277623107446,
+        "r_squared": 0.5380949960147844,
+        "uncertainty_note": "HAC lag-20 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": -0.5784982740640741
+      },
+      "net_strategy_metrics": {
+        "annualized_return": 0.10542049373055068,
+        "annualized_turnover": 5.989697517597018,
+        "annualized_volatility": 0.10718985933933077,
+        "days": 903,
+        "max_drawdown": -0.09528327115014357,
+        "mean_invested_fraction": 0.7572067942319596,
+        "sharpe_vs_cash": 0.5683330348029205,
+        "total_return": 0.4321007892684836
+      },
+      "net_strategy_minus_own_etf_buy_hold": {
+        "annualized_arithmetic_mean_gap": -0.0756012464162949,
+        "block_size_sessions": 20,
+        "ci97_5_high": -0.017384887718048435,
+        "ci97_5_low": -0.14529948680146798,
+        "confidence": 0.975,
+        "method": "paired circular moving-block bootstrap",
+        "repetitions": 5000,
+        "seed": 20261114
+      },
+      "net_strategy_minus_spy_buy_hold": {
+        "annualized_arithmetic_mean_gap": -0.11420081387861737,
+        "block_size_sessions": 20,
+        "ci97_5_high": 0.003171373003630521,
+        "ci97_5_low": -0.23138556850353384,
+        "confidence": 0.975,
+        "method": "paired circular moving-block bootstrap",
+        "repetitions": 5000,
+        "seed": 20261114
+      },
+      "same_etf_buy_and_hold_metrics": {
+        "annualized_return": 0.18552698953147329,
+        "annualized_turnover": 0.27906976744186046,
+        "annualized_volatility": 0.15084086019253878,
+        "days": 903,
+        "max_drawdown": -0.140534840017288,
+        "mean_invested_fraction": 1.0,
+        "sharpe_vs_cash": 0.9050422128190436,
+        "total_return": 0.840133561831895
+      },
+      "spy_buy_and_hold_metrics": {
+        "annualized_return": 0.2321555743749051,
+        "annualized_turnover": 0.27906976744186046,
+        "annualized_volatility": 0.15106976755228377,
+        "days": 903,
+        "max_drawdown": -0.1875522122785741,
+        "mean_invested_fraction": 1.0,
+        "sharpe_vs_cash": 1.1592489667316979,
+        "total_return": 1.1129288535192314
+      }
+    },
+    "IWM": {
+      "cost_sensitivity": [
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.09832283360267202,
+            "annualized_turnover": 4.92426842064409,
+            "annualized_volatility": 0.10938267582213713,
+            "days": 903,
+            "max_drawdown": -0.15893866185154493,
+            "mean_invested_fraction": 0.5260849516899311,
+            "sharpe_vs_cash": 0.5001043064216983,
+            "total_return": 0.39942365712080186
+          },
+          "one_way_cost_bps": 0.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.09562282456944249,
+            "annualized_turnover": 4.92426842064409,
+            "annualized_volatility": 0.10938291885880888,
+            "days": 903,
+            "max_drawdown": -0.15985255558227063,
+            "mean_invested_fraction": 0.5260849516899311,
+            "sharpe_vs_cash": 0.47759487972758846,
+            "total_return": 0.38713534574075736
+          },
+          "one_way_cost_bps": 5.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.09292937112932065,
+            "annualized_turnover": 4.92426842064409,
+            "annualized_volatility": 0.10938362832119848,
+            "days": 903,
+            "max_drawdown": -0.1607654979098483,
+            "mean_invested_fraction": 0.5260849516899311,
+            "sharpe_vs_cash": 0.45508360415471316,
+            "total_return": 0.3749545688266296
+          },
+          "one_way_cost_bps": 10.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.08756206817700386,
+            "annualized_turnover": 4.92426842064409,
+            "annualized_volatility": 0.10938644648086268,
+            "days": 903,
+            "max_drawdown": -0.16258853215303404,
+            "mean_invested_fraction": 0.5260849516899311,
+            "sharpe_vs_cash": 0.4100566584846118,
+            "total_return": 0.3509118752740401
+          },
+          "one_way_cost_bps": 20.0
+        }
+      ],
+      "ff5_plus_momentum_alpha": {
+        "annualized_alpha_ci95_high": 0.006044707767208519,
+        "annualized_alpha_ci95_low": -0.05412714629892698,
+        "annualized_alpha_se_hac": 0.015350244836638095,
+        "annualized_arithmetic_alpha": -0.024041219265859233,
+        "betas": {
+          "CMA": -0.042690095317943516,
+          "HML": 0.1217141914455014,
+          "Mkt-RF": 0.4754106747518629,
+          "Mom": 0.06191495355047849,
+          "RMW": -0.0999360914846856,
+          "SMB": 0.4838858087226452
+        },
+        "ci97_5_high": 0.010364861380385136,
+        "ci97_5_low": -0.0584472999121036,
+        "confidence_preregistered": 0.975,
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA",
+          "Mom"
+        ],
+        "hac_lags": 20,
+        "observations": 903,
+        "p_holm_secondary_two_tests": 0.2346137962207755,
+        "p_two_sided_nominal": 0.11730689811038775,
+        "r_squared": 0.9245849395065983,
+        "uncertainty_note": "HAC lag-20 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": -1.5661782285372705
+      },
+      "net_strategy_metrics": {
+        "annualized_return": 0.09562282456944249,
+        "annualized_turnover": 4.92426842064409,
+        "annualized_volatility": 0.10938291885880888,
+        "days": 903,
+        "max_drawdown": -0.15985255558227063,
+        "mean_invested_fraction": 0.5260849516899311,
+        "sharpe_vs_cash": 0.47759487972758846,
+        "total_return": 0.38713534574075736
+      },
+      "net_strategy_minus_own_etf_buy_hold": {
+        "annualized_arithmetic_mean_gap": -0.08752414342842744,
+        "block_size_sessions": 20,
+        "ci97_5_high": 0.01933442825814998,
+        "ci97_5_low": -0.19559861707680246,
+        "confidence": 0.975,
+        "method": "paired circular moving-block bootstrap",
+        "repetitions": 5000,
+        "seed": 20261114
+      },
+      "net_strategy_minus_spy_buy_hold": {
+        "annualized_arithmetic_mean_gap": -0.12288287850174895,
+        "block_size_sessions": 20,
+        "ci97_5_high": -0.020872173358214893,
+        "ci97_5_low": -0.22481385472366514,
+        "confidence": 0.975,
+        "method": "paired circular moving-block bootstrap",
+        "repetitions": 5000,
+        "seed": 20261114
+      },
+      "same_etf_buy_and_hold_metrics": {
+        "annualized_return": 0.17698033236702335,
+        "annualized_turnover": 0.27906976744186046,
+        "annualized_volatility": 0.20928609569754952,
+        "days": 903,
+        "max_drawdown": -0.2750308477536991,
+        "mean_invested_fraction": 1.0,
+        "sharpe_vs_cash": 0.6678093500347714,
+        "total_return": 0.7930386613567353
+      },
+      "spy_buy_and_hold_metrics": {
+        "annualized_return": 0.2321555743749051,
+        "annualized_turnover": 0.27906976744186046,
+        "annualized_volatility": 0.15106976755228377,
+        "days": 903,
+        "max_drawdown": -0.1875522122785741,
+        "mean_invested_fraction": 1.0,
+        "sharpe_vs_cash": 1.1592489667316979,
+        "total_return": 1.1129288535192314
+      }
+    },
+    "QQQ": {
+      "cost_sensitivity": [
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.1902416285211136,
+            "annualized_turnover": 5.392702316379707,
+            "annualized_volatility": 0.10895194134447325,
+            "days": 903,
+            "max_drawdown": -0.11404365633751434,
+            "mean_invested_fraction": 0.5874502871790815,
+            "sharpe_vs_cash": 1.2399179572775438,
+            "total_return": 0.8664910100498224
+          },
+          "one_way_cost_bps": 0.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.1870396402902649,
+            "annualized_turnover": 5.392702316379707,
+            "annualized_volatility": 0.10894495499233951,
+            "days": 903,
+            "max_drawdown": -0.11486311811594085,
+            "mean_invested_fraction": 0.5874502871790815,
+            "sharpe_vs_cash": 1.2152463550023958,
+            "total_return": 0.8485606865853026
+          },
+          "one_way_cost_bps": 5.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.18384615084515943,
+            "annualized_turnover": 5.392702316379707,
+            "annualized_volatility": 0.10893859819051865,
+            "days": 903,
+            "max_drawdown": -0.1156818620847282,
+            "mean_invested_fraction": 0.5874502871790815,
+            "sharpe_vs_cash": 1.1905647202069078,
+            "total_return": 0.8308019711878118
+          },
+          "one_way_cost_bps": 10.0
+        },
+        {
+          "net_strategy_metrics": {
+            "annualized_return": 0.1774845793303107,
+            "annualized_turnover": 5.392702316379707,
+            "annualized_volatility": 0.10892777366777141,
+            "days": 903,
+            "max_drawdown": -0.11731719898259341,
+            "mean_invested_fraction": 0.5874502871790815,
+            "sharpe_vs_cash": 1.1411730538646712,
+            "total_return": 0.7957928346801821
+          },
+          "one_way_cost_bps": 20.0
+        }
+      ],
+      "ff5_plus_momentum_alpha": {
+        "annualized_alpha_ci95_high": 0.05103264256990519,
+        "annualized_alpha_ci95_low": -0.029963428600956167,
+        "annualized_alpha_se_hac": 0.020662642735122503,
+        "annualized_arithmetic_alpha": 0.010534606984474509,
+        "betas": {
+          "CMA": -0.14997296654023878,
+          "HML": -0.11348797003075149,
+          "Mkt-RF": 0.5683587234169368,
+          "Mom": 0.08029353772520591,
+          "RMW": -0.03138513471892162,
+          "SMB": -0.03489097428475092
+        },
+        "ci97_5_high": 0.05684791077050462,
+        "ci97_5_low": -0.0357786968015556,
+        "confidence_preregistered": 0.975,
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA",
+          "Mom"
+        ],
+        "hac_lags": 20,
+        "observations": 903,
+        "p_two_sided_nominal": 0.6101647393679541,
+        "r_squared": 0.8337568306556686,
+        "uncertainty_note": "HAC lag-20 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.509838316401208
+      },
+      "net_strategy_metrics": {
+        "annualized_return": 0.1870396402902649,
+        "annualized_turnover": 5.392702316379707,
+        "annualized_volatility": 0.10894495499233951,
+        "days": 903,
+        "max_drawdown": -0.11486311811594085,
+        "mean_invested_fraction": 0.5874502871790815,
+        "sharpe_vs_cash": 1.2152463550023958,
+        "total_return": 0.8485606865853026
+      },
+      "net_strategy_minus_own_etf_buy_hold": {
+        "annualized_arithmetic_mean_gap": -0.12662674757516534,
+        "block_size_sessions": 20,
+        "ci97_5_high": -0.027048787787200154,
+        "ci97_5_low": -0.2373918505468709,
+        "confidence": 0.975,
+        "method": "paired circular moving-block bootstrap",
+        "repetitions": 5000,
+        "seed": 20261114
+      },
+      "net_strategy_minus_spy_buy_hold": {
+        "annualized_arithmetic_mean_gap": -0.04273676211240286,
+        "block_size_sessions": 20,
+        "ci97_5_high": 0.034904868477694605,
+        "ci97_5_low": -0.1196776789683492,
+        "confidence": 0.975,
+        "method": "paired circular moving-block bootstrap",
+        "repetitions": 5000,
+        "seed": 20261114
+      },
+      "same_etf_buy_and_hold_metrics": {
+        "annualized_return": 0.32767980570836747,
+        "annualized_turnover": 0.27906976744186046,
+        "annualized_volatility": 0.2029941874431694,
+        "days": 903,
+        "max_drawdown": -0.22768317296784635,
+        "mean_invested_fraction": 1.0,
+        "sharpe_vs_cash": 1.275986504133695,
+        "total_return": 1.7611150470590604
+      },
+      "spy_buy_and_hold_metrics": {
+        "annualized_return": 0.2321555743749051,
+        "annualized_turnover": 0.27906976744186046,
+        "annualized_volatility": 0.15106976755228377,
+        "days": 903,
+        "max_drawdown": -0.1875522122785741,
+        "mean_invested_fraction": 1.0,
+        "sharpe_vs_cash": 1.1592489667316979,
+        "total_return": 1.1129288535192314
+      }
+    }
+  },
+  "secondary_factor_p_holm_two_sided": {
+    "EFA": 0.5629277623107446,
+    "IWM": 0.2346137962207755
+  },
+  "status": "PRE_REGISTERED_HISTORICAL_CROSS_ASSET_REPLICATION_COMPLETE_NOT_PROSPECTIVE_ALPHA"
+}

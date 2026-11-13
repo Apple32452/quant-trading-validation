@@ -13,6 +13,9 @@ modeled returns but underperformed buy-and-hold in the final holdout.
 The follow-up Fama–French factor regressions also show no statistically
 reliable positive alpha; these regressions are **post-hoc diagnostics**
 on an already-seen SPY final interval.
+The **pre-registered QQQ/IWM/EFA historical replication is now complete**:
+the QQQ primary benchmark-outperformance and positive-alpha conditions
+both failed; all three frozen rules underperformed SPY in modeled net CAGR.
 
 ## Completed baseline
 
@@ -42,8 +45,16 @@ on an already-seen SPY final interval.
 - Frozen-strategy regressions against SPY excess return and Fama–French
   market / FF3 / FF5 / FF5 + momentum, with Newey–West HAC uncertainty,
   model-specific betas, and no post-hoc strategy reselection.
-- An explicitly unexecuted, prespecified QQQ/IWM/EFA and prospective
-  replication design in INDEPENDENT_REPLICATION_PROTOCOL.md.
+- A prespecified QQQ/IWM/EFA and future prospective replication design
+  in INDEPENDENT_REPLICATION_PROTOCOL.md, committed while neither
+  experiment had been executed or examined.
+- A one-time fixed-rule QQQ/IWM/EFA replication, with identical source hash,
+  903 matched sessions, own-ETF and SPY benchmarks, 5-bp costs, 97.5%
+  paired circular block-bootstrap intervals, FF5+Mom HAC(20) alpha intervals,
+  secondary Holm adjustment, and 0/5/10/20-bp cost sensitivity.
+- The full **failed primary** result, separate from the unmodified pre-run
+  protocol, in REPLICATION_RESULTS.md and
+  experiments/cross_asset_replication.json.
 
 ## Phase 1: Repeated synthetic overfitting study (core complete)
 
@@ -101,11 +112,16 @@ from **-1.10% to -1.89%**; every nominal 95% HAC interval included zero.
 The result is not evidence of positive factor-adjusted alpha.
 
 The precommitted design for an additional historical cross-asset attempt
-and stronger prospective test is in
+and stronger prospective test is preserved in
 [INDEPENDENT_REPLICATION_PROTOCOL.md](INDEPENDENT_REPLICATION_PROTOCOL.md).
-Neither experiment has been executed or reported as a success. Any
-subsequent evaluation must report unfavorable outcomes as well as positive
-ones, and cannot reuse the inspected SPY final interval as a new test.
+The historical replication was **executed once** without retuning and did
+not meet its QQQ primary criteria. Read the completed audit and negative
+result in [REPLICATION_RESULTS.md](REPLICATION_RESULTS.md).
+
+The prospective 252-session test has **not begun**. Future strategy
+development is exploratory, requires a separate fresh test for any claimed
+improvement, and must not reuse inspected 2023–2026 observations as an
+independent holdout.
 
 ## Phase 4: Additional mathematical checks
 

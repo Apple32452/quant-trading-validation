@@ -194,7 +194,7 @@ def hac_regression(
         "r_squared": r_squared,
         "hac_lags": lags,
         "uncertainty_note": (
-            "HAC lag-5 nominal normal interval, conditional on the fitted "
+            f"HAC lag-{lags} nominal normal interval, conditional on the fitted "
             "factor model; selection/revisions are not accounted for."
         ),
     }
