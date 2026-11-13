@@ -123,6 +123,31 @@ development is exploratory, requires a separate fresh test for any claimed
 improvement, and must not reuse inspected 2023–2026 observations as an
 independent holdout.
 
+### Prospective paper phase: tooling prepared, no observations yet
+
+`prospective_paper.py` now implements a **manual forward-only, paper-only**
+SPY journal with the frozen 20-day/10%-target-vol rule, next-close execution,
+assumed 5-bp one-way trading costs, and a 5-bp SPY benchmark entry cost.
+It constructs a point-in-time total-return index from user-provided raw
+closes, dividends, and splits; carries the previous close's observed
+annual yield forward as a rough cash proxy; and requires a signed-off
+NYSE 2026–2027 trading session and observed-after-close timestamp for each
+new record. The journal has an append-only hash chain, consecutive-session
+guard, and no interactive PnL exposure before 252 return intervals.
+
+The prospective finalizer is locked to the predeclared 97.5% paired active
+return interval and FF5-plus-momentum HAC(20) alpha interval. It refuses
+to run until 252 new realized intervals and matching official factor dates
+are available. The exact inputs, limitations, and commands are documented
+in [PROSPECTIVE_PAPER_RUNBOOK.md](PROSPECTIVE_PAPER_RUNBOOK.md).
+
+**Operational blocker:** an independently verifiable warmup through the
+2026-11-13 closing session, plus a reliable daily feed and durable private
+journal storage. The first proposed paper entry is the 2026-11-16 close.
+No feed, ledger, real trades, or paper fills have been initiated. Data
+source selection and subsequent collection are necessary before the
+prospective test can truthfully be called *running*.
+
 ## Phase 4: Additional mathematical checks
 
 - Black-Scholes: grid and timestep convergence across strikes, expiries,

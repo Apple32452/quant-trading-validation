@@ -18,5 +18,6 @@ venv/
 
 # Data and generated results (add small provenance-checked examples selectively)
 data/raw/
+data/prospective/
 results/
 *.log

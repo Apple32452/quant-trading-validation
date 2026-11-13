@@ -43,11 +43,13 @@ Three corrected, reproducible Python exercises plus four validation studies:
 | fetch_factor_data.py | Downloads SHA-256-pinned official Dartmouth factor archives into ignored raw-data storage |
 | factor_alpha.py | Post-hoc SPY market/CAPM, Fama–French 3/5-factor and momentum alpha diagnostics |
 | cross_asset_replication.py | Fixed QQQ/IWM/EFA test with SPY and own-ETF benchmarks and predeclared uncertainty |
+| prospective_paper.py | Forward-only SPY paper ledger with point-in-time input checks, NYSE calendar, audit chain, and final-only inference |
 | tests/test_quant_models.py | Automated checks of payoffs, pricing, Sharpe, and holdout isolation |
 | tests/test_overfitting_study.py | Reproducibility, statistics, CSV, and inflation/guard tests |
 | tests/test_market_backtest.py | Price integrity, causal trades, cost accounting, and holdout isolation tests |
 | tests/test_factor_alpha.py | Synthetic factor parsing, exact-date joining, fixed-rule, and HAC regression tests |
 | tests/test_cross_asset_replication.py | Synthetic-only tests of pre-registered QQQ primary inference and benchmark costs |
+| tests/test_prospective_paper.py | Synthetic-only tests of the 2026–2027 exchange clock, causal one-close delay, entry costs, and ledger integrity |
 | experiments/overfitting_summary.csv | Fixed-seed, 500-repetition summary with experimental settings and intervals |
 | experiments/real_market_study.json | Frozen SPY market results, settings, cost sensitivity, and uncertainty |
 | experiments/factor_alpha_diagnostic.json | Factor-adjusted SPY diagnostic, full model results, provenance, and limitations |
@@ -56,6 +58,7 @@ Three corrected, reproducible Python exercises plus four validation studies:
 | RESEARCH_PLAN.md | Completed stage and roadmap for leakage-safe, real-data experiments |
 | INDEPENDENT_REPLICATION_PROTOCOL.md | Immutable *pre-run* QQQ/IWM/EFA and future prospective test specification |
 | REPLICATION_RESULTS.md | Completed replication, failed primary claim, audit trail, caveats, and all outcomes |
+| PROSPECTIVE_PAPER_RUNBOOK.md | Prepared prospective SPY paper experiment, required input feed, start gates, and operator commands |
 | .github/workflows/ci.yml | GitHub Actions checks across Python 3.11, 3.12, and 3.13 |
 
 The research focus is **selection bias in risk-adjusted backtesting**.
@@ -265,6 +268,29 @@ This is a third-party, adjusted-close historical simulation. It does not
 audit fill prices, financing, execution impact, corporate actions, or
 capacity. Correlated historical ETFs cannot replace the *prospective*
 test proposed in the protocol, which has **not started**.
+
+## Prospective forward-only SPY paper simulation: code prepared
+
+The next research stage now has an [operator runbook](PROSPECTIVE_PAPER_RUNBOOK.md)
+and a tested `prospective_paper.py` implementation. It uses a frozen
+20-day volatility-targeting rule, observed unadjusted closes with explicit
+dividends/splits, approximate observed cash rates, and an append-only,
+SHA-256-chained journal. NYSE 2026–2027 session/early-close checks prevent
+silent backfills, and all returns are withheld from the status view until
+the fixed endpoint of **252 realized prospective return intervals**.
+
+**Prepared is not started:** the code will refuse initialization until
+after the **2026-11-13** market close and before **2026-11-16** open. A
+verified warmup CSV and daily point-in-time feed are still required;
+none has been supplied, no ledger has been initialized, and **no real or
+paper orders have been placed**. The manually maintained journal is kept
+outside Git, in `data/prospective/`, and needs durable private backups.
+The official factor files currently pinned in this project stop before
+the prospective period. Final factor-alpha testing will require the first
+official release covering every later date, archived with its checksum.
+
+This is a deliberately constrained *paper simulation* with assumed close
+execution/costs, not a brokerage account or automatic trading bot.
 
 ## Repeated synthetic overfitting study
 
