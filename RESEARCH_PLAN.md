@@ -10,6 +10,9 @@ The current project is an educational implementation, not evidence of a
 superior trading strategy. It now includes synthetic multiple-comparison
 experiments and a frozen historical SPY study. The latter has positive
 modeled returns but underperformed buy-and-hold in the final holdout.
+The follow-up Fama–French factor regressions also show no statistically
+reliable positive alpha; these regressions are **post-hoc diagnostics**
+on an already-seen SPY final interval.
 
 ## Completed baseline
 
@@ -33,6 +36,14 @@ modeled returns but underperformed buy-and-hold in the final holdout.
   holdout with historical benchmarks and bootstrap uncertainty.
 - Development-only trailing five-year walk-forward folds for 2018–2022;
   fixed-winner cost stress tests without strategy reselection.
+- Official 2026-09 Kenneth French daily 3-factor, 5-factor, and momentum
+  ZIP files with SHA-256 pins, strict exact-date joins, and percent-to-decimal
+  conversion, without committing third-party datasets.
+- Frozen-strategy regressions against SPY excess return and Fama–French
+  market / FF3 / FF5 / FF5 + momentum, with Newey–West HAC uncertainty,
+  model-specific betas, and no post-hoc strategy reselection.
+- An explicitly unexecuted, prespecified QQQ/IWM/EFA and prospective
+  replication design in INDEPENDENT_REPLICATION_PROTOCOL.md.
 
 ## Phase 1: Repeated synthetic overfitting study (core complete)
 
@@ -78,6 +89,23 @@ prospective dataset, separately predesignated market/instrument, or
 precommitted time-based replication is necessary for independent evidence.
 Market impact, point-in-time corporate actions, and execution calibration
 also remain necessary before any deployment consideration.
+
+## Phase 3B: Factor-adjusted alpha check (post-hoc diagnostic complete)
+
+The already-selected `volatility_target_20` rule was reconstructed with
+its original delayed fills and 5-bp trading cost. Daily excess returns
+were regressed against the SPY excess-return benchmark and official
+French market, 3-factor, 5-factor, and 5-factor + momentum series.
+In 903 final SPY sessions, the annualized arithmetic intercepts ranged
+from **-1.10% to -1.89%**; every nominal 95% HAC interval included zero.
+The result is not evidence of positive factor-adjusted alpha.
+
+The precommitted design for an additional historical cross-asset attempt
+and stronger prospective test is in
+[INDEPENDENT_REPLICATION_PROTOCOL.md](INDEPENDENT_REPLICATION_PROTOCOL.md).
+Neither experiment has been executed or reported as a success. Any
+subsequent evaluation must report unfavorable outcomes as well as positive
+ones, and cannot reuse the inspected SPY final interval as a new test.
 
 ## Phase 4: Additional mathematical checks
 

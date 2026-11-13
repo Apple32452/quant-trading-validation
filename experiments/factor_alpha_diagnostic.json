@@ -1,0 +1,412 @@
+{
+  "frozen_existing_research_commit": "dea5b9823947d2ad95280e16d0f2fa59d7599873",
+  "frozen_strategy": "volatility_target_20",
+  "method": {
+    "alpha": "daily model intercept multiplied by 252; arithmetic",
+    "multiple_models": "Bonferroni multiply two-sided p-values by five as a diagnostic only; 95% intervals are individually nominal",
+    "portfolio_cash": "original frozen simulation used an approximate ^IRX 13-week yield; not identical to official one-month FF RF",
+    "regression_models": [
+      "SPY_market",
+      "FF_market",
+      "FF3",
+      "FF5",
+      "FF5_plus_momentum"
+    ],
+    "rf": "official Fama-French daily RF for regression excess returns",
+    "standard_errors": "Newey-West HAC, Bartlett kernel, 5 daily lags",
+    "warning": "holdout and strategy are already known; significance here does not constitute an independent alpha discovery"
+  },
+  "regressions": {
+    "already_seen_final_2023_2026": {
+      "FF3": {
+        "annualized_alpha_ci95_high": 0.02008693988690654,
+        "annualized_alpha_ci95_low": -0.04836355540936097,
+        "annualized_alpha_se_hac": 0.017462181917013566,
+        "annualized_arithmetic_alpha": -0.014138307761227214,
+        "betas": {
+          "HML": 0.001519572688328659,
+          "Mkt-RF": 0.6504963005435215,
+          "SMB": -0.026899485565280143
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML"
+        ],
+        "hac_lags": 5,
+        "observations": 903,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.41813964484333177,
+        "r_squared": 0.8902068726487643,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": -0.8096529877204022
+      },
+      "FF5": {
+        "annualized_alpha_ci95_high": 0.013753347480723089,
+        "annualized_alpha_ci95_low": -0.05101330516250226,
+        "annualized_alpha_se_hac": 0.01652240886960679,
+        "annualized_arithmetic_alpha": -0.018629978840889582,
+        "betas": {
+          "CMA": -0.07819660254161874,
+          "HML": 0.03098989445503856,
+          "Mkt-RF": 0.6421446066087261,
+          "RMW": -0.014773980136308235,
+          "SMB": -0.028975313549491035
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA"
+        ],
+        "hac_lags": 5,
+        "observations": 903,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.25950651660165946,
+        "r_squared": 0.8935290299308661,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": -1.1275582748203075
+      },
+      "FF5_plus_momentum": {
+        "annualized_alpha_ci95_high": 0.013617089149768915,
+        "annualized_alpha_ci95_low": -0.05138256177524833,
+        "annualized_alpha_se_hac": 0.016581848299013283,
+        "annualized_arithmetic_alpha": -0.01888273631273971,
+        "betas": {
+          "CMA": -0.0723770676553246,
+          "HML": 0.027586082877559315,
+          "Mkt-RF": 0.6392765613121164,
+          "Mom": 0.04918031118419304,
+          "RMW": 0.009173993421138308,
+          "SMB": 0.002136075971144217
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA",
+          "Mom"
+        ],
+        "hac_lags": 5,
+        "observations": 903,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.2548035025098717,
+        "r_squared": 0.898124362134652,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": -1.138759441784505
+      },
+      "FF_market": {
+        "annualized_alpha_ci95_high": 0.0211069906511653,
+        "annualized_alpha_ci95_low": -0.04495075220496509,
+        "annualized_alpha_se_hac": 0.01685177466997746,
+        "annualized_arithmetic_alpha": -0.011921880776899894,
+        "betas": {
+          "Mkt-RF": 0.6437216972630965
+        },
+        "factor_names": [
+          "Mkt-RF"
+        ],
+        "hac_lags": 5,
+        "observations": 903,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.4792834536782404,
+        "r_squared": 0.8895383187508533,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": -0.7074555060446842
+      },
+      "SPY_market": {
+        "annualized_alpha_ci95_high": 0.023305008385412294,
+        "annualized_alpha_ci95_low": -0.045316978512968946,
+        "annualized_alpha_se_hac": 0.017505930578588454,
+        "annualized_arithmetic_alpha": -0.011005985063778324,
+        "betas": {
+          "SPY_minus_RF": 0.6514042135040637
+        },
+        "factor_names": [
+          "SPY_minus_RF"
+        ],
+        "hac_lags": 5,
+        "observations": 903,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.5295452346585364,
+        "r_squared": 0.8768187030466938,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": -0.6287003718179809
+      }
+    },
+    "training_2010_2018": {
+      "FF3": {
+        "annualized_alpha_ci95_high": 0.02931140964995516,
+        "annualized_alpha_ci95_low": -0.019462462581959026,
+        "annualized_alpha_se_hac": 0.012442542979777439,
+        "annualized_arithmetic_alpha": 0.0049244735339980675,
+        "betas": {
+          "HML": -0.03309042941988677,
+          "Mkt-RF": 0.6269524144298203,
+          "SMB": -0.09453028879749932
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML"
+        ],
+        "hac_lags": 5,
+        "observations": 2264,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.6922694744408967,
+        "r_squared": 0.8561825531641258,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.39577709653096593
+      },
+      "FF5": {
+        "annualized_alpha_ci95_high": 0.0273009053882459,
+        "annualized_alpha_ci95_low": -0.02148286300713826,
+        "annualized_alpha_se_hac": 0.012445067557664644,
+        "annualized_arithmetic_alpha": 0.0029090211905538205,
+        "betas": {
+          "CMA": 0.053737081212825416,
+          "HML": -0.03708940154521071,
+          "Mkt-RF": 0.6359670880397259,
+          "RMW": 0.04377344047394488,
+          "SMB": -0.08751548202692891
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA"
+        ],
+        "hac_lags": 5,
+        "observations": 2264,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.8151799013385806,
+        "r_squared": 0.8568323825839208,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.23374892720146132
+      },
+      "FF5_plus_momentum": {
+        "annualized_alpha_ci95_high": 0.02664241463522882,
+        "annualized_alpha_ci95_low": -0.022643510373389384,
+        "annualized_alpha_se_hac": 0.01257317108844512,
+        "annualized_arithmetic_alpha": 0.001999452130919717,
+        "betas": {
+          "CMA": 0.04816837858251974,
+          "HML": -0.021295749554894678,
+          "Mkt-RF": 0.6334073168170906,
+          "Mom": 0.02983338077880772,
+          "RMW": 0.045808284119009335,
+          "SMB": -0.08422515226213105
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA",
+          "Mom"
+        ],
+        "hac_lags": 5,
+        "observations": 2264,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.8736489518170164,
+        "r_squared": 0.8577096205254855,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.15902528621098896
+      },
+      "FF_market": {
+        "annualized_alpha_ci95_high": 0.03246029988179963,
+        "annualized_alpha_ci95_low": -0.01768454035385568,
+        "annualized_alpha_se_hac": 0.012792286142045512,
+        "annualized_arithmetic_alpha": 0.007387879763971974,
+        "betas": {
+          "Mkt-RF": 0.6081918726528942
+        },
+        "factor_names": [
+          "Mkt-RF"
+        ],
+        "hac_lags": 5,
+        "observations": 2264,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.5635840787861927,
+        "r_squared": 0.8506604628042126,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.577526149895099
+      },
+      "SPY_market": {
+        "annualized_alpha_ci95_high": 0.030021696434200766,
+        "annualized_alpha_ci95_low": -0.018126495341227095,
+        "annualized_alpha_se_hac": 0.012282927685457135,
+        "annualized_arithmetic_alpha": 0.0059476005464868375,
+        "betas": {
+          "SPY_minus_RF": 0.6326949639485641
+        },
+        "factor_names": [
+          "SPY_minus_RF"
+        ],
+        "hac_lags": 5,
+        "observations": 2264,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.6282319800962117,
+        "r_squared": 0.8604781716500467,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.48421684949987437
+      }
+    },
+    "validation_2019_2022": {
+      "FF3": {
+        "annualized_alpha_ci95_high": 0.07959066334830905,
+        "annualized_alpha_ci95_low": -0.025938396391149816,
+        "annualized_alpha_se_hac": 0.026921173188388978,
+        "annualized_arithmetic_alpha": 0.026826133478579615,
+        "betas": {
+          "HML": -0.03507681409726764,
+          "Mkt-RF": 0.38561028014365806,
+          "SMB": -0.015289499354651081
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML"
+        ],
+        "hac_lags": 5,
+        "observations": 1008,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.3190219800932619,
+        "r_squared": 0.721257568149291,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.9964697040079089
+      },
+      "FF5": {
+        "annualized_alpha_ci95_high": 0.07229457235787214,
+        "annualized_alpha_ci95_low": -0.0342143648285505,
+        "annualized_alpha_se_hac": 0.02717114651818303,
+        "annualized_arithmetic_alpha": 0.019040103764660813,
+        "betas": {
+          "CMA": 0.04481446550506895,
+          "HML": -0.06648438024812431,
+          "Mkt-RF": 0.3912082291090946,
+          "RMW": 0.06842496968216075,
+          "SMB": 0.00691635235112187
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA"
+        ],
+        "hac_lags": 5,
+        "observations": 1008,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.4834608190050936,
+        "r_squared": 0.7254218363182268,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.7007471602981163
+      },
+      "FF5_plus_momentum": {
+        "annualized_alpha_ci95_high": 0.07103799972968479,
+        "annualized_alpha_ci95_low": -0.03385249880349045,
+        "annualized_alpha_se_hac": 0.026758271928127676,
+        "annualized_arithmetic_alpha": 0.018592750463097166,
+        "betas": {
+          "CMA": 0.05987093086279327,
+          "HML": -0.07404928499260027,
+          "Mkt-RF": 0.390806094720472,
+          "Mom": -0.010904124448406157,
+          "RMW": 0.06609096058239515,
+          "SMB": 0.0037193822227490733
+        },
+        "factor_names": [
+          "Mkt-RF",
+          "SMB",
+          "HML",
+          "RMW",
+          "CMA",
+          "Mom"
+        ],
+        "hac_lags": 5,
+        "observations": 1008,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.48715480928310106,
+        "r_squared": 0.7257902290322549,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.6948412256604993
+      },
+      "FF_market": {
+        "annualized_alpha_ci95_high": 0.07941289616118545,
+        "annualized_alpha_ci95_low": -0.02680656433043634,
+        "annualized_alpha_se_hac": 0.02709729906560479,
+        "annualized_arithmetic_alpha": 0.026303165915374554,
+        "betas": {
+          "Mkt-RF": 0.3852895907340481
+        },
+        "factor_names": [
+          "Mkt-RF"
+        ],
+        "hac_lags": 5,
+        "observations": 1008,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.3317010427910778,
+        "r_squared": 0.7170269802451251,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.9706932728495348
+      },
+      "SPY_market": {
+        "annualized_alpha_ci95_high": 0.07666917374407961,
+        "annualized_alpha_ci95_low": -0.02996134020972596,
+        "annualized_alpha_se_hac": 0.02720216156956775,
+        "annualized_arithmetic_alpha": 0.023353916767176828,
+        "betas": {
+          "SPY_minus_RF": 0.40357771295694456
+        },
+        "factor_names": [
+          "SPY_minus_RF"
+        ],
+        "hac_lags": 5,
+        "observations": 1008,
+        "p_bonferroni_across_five_models": 1.0,
+        "p_two_sided_nominal": 0.3905989593286143,
+        "r_squared": 0.7265780989726403,
+        "uncertainty_note": "HAC lag-5 nominal normal interval, conditional on the fitted factor model; selection/revisions are not accounted for.",
+        "z_normal_approximation": 0.8585316540911909
+      }
+    }
+  },
+  "source": {
+    "factor_official_site": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html",
+    "factors": {
+      "ff3": {
+        "archive_url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_Factors_daily_CSV.zip",
+        "data_scale": "daily factor percent converted to decimal",
+        "first_date": "1926-07-01",
+        "last_date": "2026-09-30",
+        "matches_2026_09_pinned_release": true,
+        "sha256": "96c23b88e651cbfff3740a53f8225e59ee39893371e96385a1d8125ec2cd9c89"
+      },
+      "ff5": {
+        "archive_url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Research_Data_5_Factors_2x3_daily_CSV.zip",
+        "data_scale": "daily factor percent converted to decimal",
+        "first_date": "1963-07-01",
+        "last_date": "2026-09-30",
+        "matches_2026_09_pinned_release": true,
+        "sha256": "e58577223032aa45071a46686f7068900c371b516c9eb04e28e974c34264f84f"
+      },
+      "mom": {
+        "archive_url": "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/F-F_Momentum_Factor_daily_CSV.zip",
+        "data_scale": "daily factor percent converted to decimal",
+        "first_date": "1926-11-03",
+        "last_date": "2026-09-30",
+        "matches_2026_09_pinned_release": true,
+        "sha256": "e56d5bc845544e2993e77353b12c611cfce3149ef754f9b59fc67904ddadd369"
+      }
+    },
+    "spy_adjusted_close_sha256": "361efb287116fc8200582c15fcd315bcce2e218fa1e50b416bacc5acebff37b9",
+    "spy_first_loaded": "2009-01-02",
+    "spy_last_loaded": "2026-08-10",
+    "spy_price_snapshot_matches_prior": true
+  },
+  "status": "POST_HOC_DIAGNOSTIC_ON_ALREADY_SEEN_SPY_HOLDOUT_NOT_NEW_INDEPENDENT_ALPHA_EVIDENCE"
+}

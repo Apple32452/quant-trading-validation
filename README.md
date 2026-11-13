@@ -1,6 +1,6 @@
 # Quantitative Simulation and Backtest Validation
 
-Three corrected, reproducible Python exercises plus two validation studies:
+Three corrected, reproducible Python exercises plus three validation studies:
 
 1. **Blackjack Monte Carlo.** Simulates Hi-Lo true counts every five cards
    and compares adaptive ($50/$500) with fixed ($50) bets on the same outcomes.
@@ -21,6 +21,12 @@ Three corrected, reproducible Python exercises plus two validation studies:
    closing prices, seven predeclared rules, chronological splits, delayed
    close execution, trading costs, and a frozen 2023–2026 holdout. The selected
    strategy earns positive historical returns but does NOT beat buy-and-hold.
+6. **Post-hoc factor-adjusted alpha check.** Reconstructs the existing frozen
+   strategy with unchanged trading costs; joins official Fama–French 3-factor,
+   5-factor, and momentum daily series by exact date; computes regression
+   intercepts with autocorrelation-robust uncertainty. No fitted model shows
+   statistically reliable positive alpha. The SPY final sample was already
+   examined, so this is **not fresh independent validation**.
 
 ## Repository contents
 
@@ -30,13 +36,18 @@ Three corrected, reproducible Python exercises plus two validation studies:
 | overfitting_study.py | Repeated-seed zero-alpha study, Bonferroni comparison, and planted-signal control |
 | fetch_market_data.py | Downloads a pinned historical CSV and verifies SHA-256 outside Git |
 | market_backtest.py | Historical backtesting, costs, execution timing, and walk-forward evaluation |
+| fetch_factor_data.py | Downloads SHA-256-pinned official Dartmouth factor archives into ignored raw-data storage |
+| factor_alpha.py | Post-hoc SPY market/CAPM, Fama–French 3/5-factor and momentum alpha diagnostics |
 | tests/test_quant_models.py | Automated checks of payoffs, pricing, Sharpe, and holdout isolation |
 | tests/test_overfitting_study.py | Reproducibility, statistics, CSV, and inflation/guard tests |
 | tests/test_market_backtest.py | Price integrity, causal trades, cost accounting, and holdout isolation tests |
+| tests/test_factor_alpha.py | Synthetic factor parsing, exact-date joining, fixed-rule, and HAC regression tests |
 | experiments/overfitting_summary.csv | Fixed-seed, 500-repetition summary with experimental settings and intervals |
 | experiments/real_market_study.json | Frozen SPY market results, settings, cost sensitivity, and uncertainty |
+| experiments/factor_alpha_diagnostic.json | Factor-adjusted SPY diagnostic, full model results, provenance, and limitations |
 | requirements.txt | NumPy dependency |
 | RESEARCH_PLAN.md | Completed stage and roadmap for leakage-safe, real-data experiments |
+| INDEPENDENT_REPLICATION_PROTOCOL.md | Predesignated QQQ/IWM/EFA and prospective tests; **not yet executed** |
 | .github/workflows/ci.yml | GitHub Actions checks across Python 3.11, 3.12, and 3.13 |
 
 The research focus is **selection bias in risk-adjusted backtesting**.
@@ -55,6 +66,8 @@ python3 -m unittest discover -s tests -v
 python3 overfitting_study.py --repetitions 500 --seed 20261112 --output experiments/overfitting_summary.csv
 python3 fetch_market_data.py
 python3 market_backtest.py --csv data/raw/daily_adjclose.csv --cost-bps 5
+python3 fetch_factor_data.py
+python3 factor_alpha.py
 ~~~
 
 For individual demos:
@@ -142,6 +155,60 @@ python3 -m unittest discover -s tests -v
 The final SPY period has now been inspected. **It cannot be reused as
 an independent final test for revised strategies or settings.** Further
 research needs new prospective data or a separately held-out instrument.
+
+## SPY factor-adjusted alpha: already-seen data diagnostic
+
+The previously frozen `volatility_target_20` rule and original 5-bp cost
+assumption remain unchanged. Its daily net returns are regressed on the
+official Kenneth French daily risk-free return and publicly documented
+factor portfolios. The download pins the exact 2026-09 CRSP-released
+factor archives from the [Kenneth French Data Library](https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/data_library.html).
+The archived ZIPs remain in `data/raw/`, outside version control. The
+script verifies all three checksums, converts factor **percent** to decimal,
+requires an exact session-date join, and refuses an SPY source-vintage change.
+
+Each intercept is daily regression alpha multiplied by 252 trading days;
+this is an *annualized arithmetic* rate, **not** compounded CAGR. Two-sided
+nominal 95% normal-approximation intervals use Newey–West/Bartlett HAC
+standard errors with five lags. The JSON also reports betas, R², five-model
+Bonferroni diagnostic p-values, and source hashes. The dependent variable
+subtracts the official French one-month bill proxy, while the frozen
+portfolio's cash treatment uses an approximate ^IRX 13-week discount yield;
+these cash proxies are not identical.
+
+**Existing final period: 903 sessions, 2023–2026-08; post-hoc, not a new test.**
+
+| Model | Annualized alpha | HAC nominal 95% interval | Two-sided nominal p |
+| --- | ---: | ---: | ---: |
+| SPY excess-return benchmark | -1.10% | [-4.53%, +2.33%] | 0.530 |
+| French market factor | -1.19% | [-4.50%, +2.11%] | 0.479 |
+| French 3-factor | -1.41% | [-4.84%, +2.01%] | 0.418 |
+| French 5-factor | -1.86% | [-5.10%, +1.38%] | 0.260 |
+| French 5-factor + momentum | -1.89% | [-5.14%, +1.36%] | 0.255 |
+
+Every interval includes zero; none demonstrates positive alpha. The
+strategy's SPY-excess-return beta was approximately 0.65, consistent with
+its lower market exposure under volatility targeting. Regression alpha is
+model-dependent; no causal edge, trading profit, or prospective
+generalization has been demonstrated. Five-model multiple testing and
+the previously seen holdout only strengthen this caution.
+
+Reproduce without committing upstream raw factor archives:
+
+~~~bash
+python3 -m pip install -r requirements.txt
+python3 fetch_market_data.py
+python3 fetch_factor_data.py
+python3 factor_alpha.py --output experiments/factor_alpha_diagnostic.json
+python3 -m unittest discover -s tests -v
+~~~
+
+The next **independent replication protocol is already specified but has
+not been run**: [cross-asset and prospective tests](INDEPENDENT_REPLICATION_PROTOCOL.md).
+The QQQ/IWM/EFA paths were not examined while designing the protocol;
+correlations with SPY mean their historical replication is not fully
+independent. The more definitive step is a prospectively logged,
+unchanged-rule evaluation with realistic execution evidence.
 
 ## Repeated synthetic overfitting study
 
