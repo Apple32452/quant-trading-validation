@@ -6,9 +6,10 @@ How much does searching across multiple candidate strategies inflate
 in-sample risk-adjusted performance, and how well does an untouched
 chronological holdout reveal the inflation?
 
-The current project is an educational implementation, not evidence of
-profitable trading. We have now measured synthetic multiple-comparison
-effects, but not any actual market predictive performance.
+The current project is an educational implementation, not evidence of a
+superior trading strategy. It now includes synthetic multiple-comparison
+experiments and a frozen historical SPY study. The latter has positive
+modeled returns but underperformed buy-and-hold in the final holdout.
 
 ## Completed baseline
 
@@ -24,6 +25,14 @@ effects, but not any actual market predictive performance.
 - An unadjusted versus Bonferroni-adjusted training-only one-sided
   normal-approximation comparison and a positive-signal detection control.
 - Added automated tests and CI smoke coverage for the new experiment.
+- A checksum-pinned ETF adjusted-close data download, strict date validation,
+  holiday/yield-gap checks, causal next-close execution, modeled trading costs,
+  and a 13-week T-bill cash proxy.
+- Seven predeclared SPY strategy candidates, training-only selection on
+  2010–2018, validation on 2019–2022, and a single final 2023–2026
+  holdout with historical benchmarks and bootstrap uncertainty.
+- Development-only trailing five-year walk-forward folds for 2018–2022;
+  fixed-winner cost stress tests without strategy reselection.
 
 ## Phase 1: Repeated synthetic overfitting study (core complete)
 
@@ -44,24 +53,31 @@ Still planned:
 3. Compare a predeclared held-out threshold or nonparametric correction
    with Bonferroni; record detection power and false positive rates.
 
-## Phase 2: A leakage-safe evaluation framework
+## Phase 2: A leakage-safe evaluation framework (prototype complete)
 
-- Accept timestamped return series and enforce chronological order.
-- Ensure each signal uses only information available before the trade.
-- Add turnover, fees, slippage, shorting restrictions, and risk-free
-  financing where relevant.
-- Use rolling or expanding walk-forward windows for development.
-- Freeze the final strategy and hyperparameters before a single
-  untouched final-period evaluation.
-- Record data provenance, timestamps, seeds, parameters, and code version.
+Completed for the first historical study: time-ordered input checks,
+next-close execution lag, trading-cost and turnover calculations, a cash
+yield approximation, walk-forward development, frozen final candidate,
+provenance and reproducible outputs.
 
-## Phase 3: Real historical market data
+Still needed: real quote/fill cost calibration, data-license and corporate
+action audit, capacity and liquidity models, more realistic financing and
+market-impact assumptions, and stronger controls for missing data.
 
-Use properly licensed/public historical data or user-supplied CSVs.
-Validate splits, adjusted prices, missingness, and corporate actions.
-Compare against buy-and-hold and a no-predictability baseline. Report
-drawdown, volatility, Sharpe, turnover, and transaction-cost sensitivity.
-Do not select a reported result by repeatedly inspecting the final holdout.
+## Phase 3: Real historical market data (single-ETF first pass complete)
+
+Initial data: a third-party mirror of yfinance adjusted-close history,
+not an independently audited primary market feed. We did not redistribute
+it. The SPY study records its exact snapshot hash, costs, cash yield
+approximations, split boundaries, benchmark, Sharpe, return, drawdown,
+turnover, bootstrap intervals, and the negative benchmark finding.
+
+**Crucial next step:** the 2023–2026 SPY holdout has already been seen.
+Do NOT retune new rules to improve that same final sample. A new frozen
+prospective dataset, separately predesignated market/instrument, or
+precommitted time-based replication is necessary for independent evidence.
+Market impact, point-in-time corporate actions, and execution calibration
+also remain necessary before any deployment consideration.
 
 ## Phase 4: Additional mathematical checks
 

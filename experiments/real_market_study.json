@@ -1,0 +1,265 @@
+{
+  "benchmark_buy_hold": {
+    "final_holdout": {
+      "annualized_return": 0.23232828537725175,
+      "annualized_turnover": 0.0,
+      "annualized_volatility": 0.1510648353698433,
+      "days": 903,
+      "max_drawdown": -0.18755221227857433,
+      "mean_invested_fraction": 1.0,
+      "sharpe_vs_cash": 1.160210431631362,
+      "total_return": 1.113990317277683
+    },
+    "training": {
+      "annualized_return": 0.11635554293580386,
+      "annualized_turnover": 0.0,
+      "annualized_volatility": 0.14921411455736383,
+      "days": 2264,
+      "max_drawdown": -0.19348893618918916,
+      "mean_invested_fraction": 1.0,
+      "sharpe_vs_cash": 0.7865245047170791,
+      "total_return": 1.6882151688584464
+    },
+    "validation": {
+      "annualized_return": 0.1308847351812723,
+      "annualized_turnover": 0.0,
+      "annualized_volatility": 0.22527249135870808,
+      "days": 1008,
+      "max_drawdown": -0.33717274318762325,
+      "mean_invested_fraction": 1.0,
+      "sharpe_vs_cash": 0.6105287790924849,
+      "total_return": 0.6355859370956953
+    }
+  },
+  "final_annualized_arithmetic_mean_gap_ci95": {
+    "selected_minus_buy_hold": {
+      "block_size_days": 20,
+      "bootstrap_repetitions": 1500,
+      "ci95_high": -0.02423996735966801,
+      "ci95_low": -0.12445874886805482,
+      "point_estimate": -0.07110987483538161,
+      "seed": 20261113
+    },
+    "selected_minus_cash": {
+      "block_size_days": 20,
+      "bootstrap_repetitions": 1500,
+      "ci95_high": 0.19863434533033117,
+      "ci95_low": 0.009608407117827369,
+      "point_estimate": 0.10415535290837392,
+      "seed": 20261113
+    }
+  },
+  "final_cost_sensitivity": [
+    {
+      "cost_bps_one_way": 0.0,
+      "selected_final_metrics": {
+        "annualized_return": 0.15758210988238217,
+        "annualized_turnover": 5.356748677123978,
+        "annualized_volatility": 0.10510948630609665,
+        "days": 903,
+        "max_drawdown": -0.11654078708419757,
+        "mean_invested_fraction": 0.7888248839454536,
+        "sharpe_vs_cash": 1.0164508241811374,
+        "total_return": 0.6893798341004171
+      }
+    },
+    {
+      "cost_bps_one_way": 5.0,
+      "selected_final_metrics": {
+        "annualized_return": 0.15448918006973236,
+        "annualized_turnover": 5.356748677123978,
+        "annualized_volatility": 0.10509591811812184,
+        "days": 903,
+        "max_drawdown": -0.11754162015921577,
+        "mean_invested_fraction": 0.7888248839454536,
+        "sharpe_vs_cash": 0.9910962428489153,
+        "total_return": 0.6732610057949582
+      }
+    },
+    {
+      "cost_bps_one_way": 10.0,
+      "selected_final_metrics": {
+        "annualized_return": 0.15140439924187848,
+        "annualized_turnover": 5.356748677123978,
+        "annualized_volatility": 0.10508303167286498,
+        "days": 903,
+        "max_drawdown": -0.11854135996667381,
+        "mean_invested_fraction": 0.7888248839454536,
+        "sharpe_vs_cash": 0.965728827331739,
+        "total_return": 0.6572953785511002
+      }
+    },
+    {
+      "cost_bps_one_way": 20.0,
+      "selected_final_metrics": {
+        "annualized_return": 0.14525919990666464,
+        "annualized_turnover": 5.356748677123978,
+        "annualized_volatility": 0.10505930500069406,
+        "days": 903,
+        "max_drawdown": -0.12053756438407204,
+        "mean_invested_fraction": 0.7888248839454536,
+        "sharpe_vs_cash": 0.914957442136441,
+        "total_return": 0.6258179389932099
+      }
+    }
+  ],
+  "method": {
+    "candidate_names": [
+      {
+        "annual_target_volatility": 0.0,
+        "kind": "momentum",
+        "lookback": 20,
+        "name": "momentum_20"
+      },
+      {
+        "annual_target_volatility": 0.0,
+        "kind": "momentum",
+        "lookback": 60,
+        "name": "momentum_60"
+      },
+      {
+        "annual_target_volatility": 0.0,
+        "kind": "momentum",
+        "lookback": 120,
+        "name": "momentum_120"
+      },
+      {
+        "annual_target_volatility": 0.0,
+        "kind": "reversion",
+        "lookback": 3,
+        "name": "mean_reversion_3"
+      },
+      {
+        "annual_target_volatility": 0.0,
+        "kind": "reversion",
+        "lookback": 5,
+        "name": "mean_reversion_5"
+      },
+      {
+        "annual_target_volatility": 0.0,
+        "kind": "reversion",
+        "lookback": 10,
+        "name": "mean_reversion_10"
+      },
+      {
+        "annual_target_volatility": 0.1,
+        "kind": "volatility",
+        "lookback": 20,
+        "name": "volatility_target_20"
+      }
+    ],
+    "cost_components": "aggregate assumed spread, slippage, commissions",
+    "final_period": "2023-01-01 through last valid price",
+    "folds": "2018-2022 yearly; trailing five calendar years training",
+    "holdout_reuse_warning": "do not retune after examining these results",
+    "long_only_fully_funded": true,
+    "missing_prices": "skip only 2026-05-25 verified NYSE holiday and trailing blanks; reject other internal gaps",
+    "missing_yields": "past-value carry forward, maximum five sessions",
+    "rebalancing": "signal formed after close t; execute at close t+1; earn return from close t+1 to close t+2",
+    "reference_one_way_cost_bps": 5.0,
+    "risk_free": "approximate daily ^IRX; not an executable return",
+    "selection": "maximize training-only net annualized Sharpe vs cash",
+    "training_period": "2010-01-01 through 2018-12-31",
+    "validation_period": "2019-01-01 through 2022-12-31"
+  },
+  "selected": {
+    "final_holdout": {
+      "annualized_return": 0.15448918006973236,
+      "annualized_turnover": 5.356748677123978,
+      "annualized_volatility": 0.10509591811812184,
+      "days": 903,
+      "max_drawdown": -0.11754162015921577,
+      "mean_invested_fraction": 0.7888248839454536,
+      "sharpe_vs_cash": 0.9910962428489153,
+      "total_return": 0.6732610057949582
+    },
+    "training": {
+      "annualized_return": 0.08164600552411125,
+      "annualized_turnover": 4.104991099272609,
+      "annualized_volatility": 0.10177016712517313,
+      "days": 2264,
+      "max_drawdown": -0.12286425041209703,
+      "mean_invested_fraction": 0.7986643226256521,
+      "sharpe_vs_cash": 0.7841417639477747,
+      "total_return": 1.024069044445819
+    },
+    "validation": {
+      "annualized_return": 0.08781786344504233,
+      "annualized_turnover": 4.455636687726837,
+      "annualized_volatility": 0.10664521353764628,
+      "days": 1008,
+      "max_drawdown": -0.12656667004291322,
+      "mean_invested_fraction": 0.656304323836175,
+      "sharpe_vs_cash": 0.7397438029969693,
+      "total_return": 0.4003117886334002
+    }
+  },
+  "selected_strategy": "volatility_target_20",
+  "source": {
+    "cash_proxy": "^IRX close / 100 / 252, approximate",
+    "first_loaded": "2009-01-02",
+    "known_exchange_holiday_rows_skipped": 1,
+    "last_loaded": "2026-08-10",
+    "matches_pinned_snapshot": true,
+    "pinned_revision": "65a079329e379e104495f459e12e76a8f995585a",
+    "previous_observed_cash_yield_carry_days": 2,
+    "price_basis": "adjusted close, according to mirror; not audited",
+    "provider": "third-party GitHub yfinance adjusted-close mirror",
+    "repository_url": "https://github.com/manisahni/marketdata",
+    "rows_loaded": 4427,
+    "source_sha256": "361efb287116fc8200582c15fcd315bcce2e218fa1e50b416bacc5acebff37b9",
+    "symbol": "SPY"
+  },
+  "status": "HISTORICAL_RESEARCH_ONLY_NO_VERIFIED_ALPHA",
+  "training_sharpe_by_candidate": {
+    "mean_reversion_10": 0.42961989512978804,
+    "mean_reversion_3": 0.2753967138514022,
+    "mean_reversion_5": 0.5167209876117242,
+    "momentum_120": 0.7677473549498716,
+    "momentum_20": 0.5908016887107294,
+    "momentum_60": 0.39140141384275556,
+    "volatility_target_20": 0.7841417639477747
+  },
+  "walk_forward_development_only": [
+    {
+      "benchmark_annualized_return": -0.04586795682787108,
+      "net_annualized_return": -0.05452623096512945,
+      "net_sharpe_vs_cash": -0.45054184918423257,
+      "selected_strategy": "momentum_120",
+      "test_year": 2018,
+      "training_first_year": 2013
+    },
+    {
+      "benchmark_annualized_return": 0.31223847563144425,
+      "net_annualized_return": 0.14800078445272527,
+      "net_sharpe_vs_cash": 1.1664013190879947,
+      "selected_strategy": "momentum_120",
+      "test_year": 2019,
+      "training_first_year": 2014
+    },
+    {
+      "benchmark_annualized_return": 0.18252950580654478,
+      "net_annualized_return": 0.17584356227653444,
+      "net_sharpe_vs_cash": 1.0234594448550876,
+      "selected_strategy": "momentum_20",
+      "test_year": 2020,
+      "training_first_year": 2015
+    },
+    {
+      "benchmark_annualized_return": 0.2872876955325277,
+      "net_annualized_return": 0.1853846472085902,
+      "net_sharpe_vs_cash": 1.6619407764983785,
+      "selected_strategy": "volatility_target_20",
+      "test_year": 2021,
+      "training_first_year": 2016
+    },
+    {
+      "benchmark_annualized_return": -0.18240733868663558,
+      "net_annualized_return": -0.0934829267630494,
+      "net_sharpe_vs_cash": -1.0445960064510562,
+      "selected_strategy": "volatility_target_20",
+      "test_year": 2022,
+      "training_first_year": 2017
+    }
+  ]
+}

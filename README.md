@@ -1,7 +1,6 @@
 # Quantitative Simulation and Backtest Validation
 
-Three corrected, reproducible Python exercises, plus a repeated-simulation
-research study:
+Three corrected, reproducible Python exercises plus two validation studies:
 
 1. **Blackjack Monte Carlo.** Simulates Hi-Lo true counts every five cards
    and compares adaptive ($50/$500) with fixed ($50) bets on the same outcomes.
@@ -18,6 +17,10 @@ research study:
    Sharpe gap and confidence intervals, compares an unadjusted one-sided
    training significance test with a Bonferroni guard, and includes a
    planted-positive-signal control.
+5. **Real historical ETF experiment.** Uses third-party archived SPY adjusted
+   closing prices, seven predeclared rules, chronological splits, delayed
+   close execution, trading costs, and a frozen 2023–2026 holdout. The selected
+   strategy earns positive historical returns but does NOT beat buy-and-hold.
 
 ## Repository contents
 
@@ -25,9 +28,13 @@ research study:
 | --- | --- |
 | quant_models.py | Three reproducible simulations and command-line demos |
 | overfitting_study.py | Repeated-seed zero-alpha study, Bonferroni comparison, and planted-signal control |
+| fetch_market_data.py | Downloads a pinned historical CSV and verifies SHA-256 outside Git |
+| market_backtest.py | Historical backtesting, costs, execution timing, and walk-forward evaluation |
 | tests/test_quant_models.py | Automated checks of payoffs, pricing, Sharpe, and holdout isolation |
 | tests/test_overfitting_study.py | Reproducibility, statistics, CSV, and inflation/guard tests |
+| tests/test_market_backtest.py | Price integrity, causal trades, cost accounting, and holdout isolation tests |
 | experiments/overfitting_summary.csv | Fixed-seed, 500-repetition summary with experimental settings and intervals |
+| experiments/real_market_study.json | Frozen SPY market results, settings, cost sensitivity, and uncertainty |
 | requirements.txt | NumPy dependency |
 | RESEARCH_PLAN.md | Completed stage and roadmap for leakage-safe, real-data experiments |
 | .github/workflows/ci.yml | GitHub Actions checks across Python 3.11, 3.12, and 3.13 |
@@ -35,7 +42,7 @@ research study:
 The research focus is **selection bias in risk-adjusted backtesting**.
 Option pricing and card counting serve as separate numerical-methods
 demonstrations. See [the research roadmap](RESEARCH_PLAN.md) for the
-next work needed before any claim about real financial returns.
+next work needed before any claim about a verified trading advantage.
 
 ## Requirements and commands
 
@@ -46,6 +53,8 @@ python3 -m pip install -r requirements.txt
 python3 quant_models.py all
 python3 -m unittest discover -s tests -v
 python3 overfitting_study.py --repetitions 500 --seed 20261112 --output experiments/overfitting_summary.csv
+python3 fetch_market_data.py
+python3 market_backtest.py --csv data/raw/daily_adjclose.csv --cost-bps 5
 ~~~
 
 For individual demos:
@@ -55,6 +64,84 @@ python3 quant_models.py blackjack --sessions 1000 --decks 430
 python3 quant_models.py black-scholes
 python3 quant_models.py backtest
 ~~~
+
+## Historical SPY study: frozen evaluation
+
+**Data/provenance.** A [third-party ETF price archive](https://github.com/manisahni/marketdata)
+claims its prices are yfinance dividend/split-adjusted closes; this is
+neither an official exchange feed nor independently audited. The downloader
+pins upstream revision 65a079329e379e104495f459e12e76a8f995585a and
+checks SHA-256
+361efb287116fc8200582c15fcd315bcce2e218fa1e50b416bacc5acebff37b9.
+It does **not** commit or redistribute the 1.5 MB third-party CSV.
+
+Our SPY study uses 4,427 closing prices from 2009-01-02 to 2026-08-10.
+The source has one empty SPY row on **2026-05-25**, confirmed as a closed
+market day by the [NYSE holiday calendar](https://www.nyse.com/trade/hours-calendars),
+and a trailing empty price row; these are skipped. Two missing Treasury-bill
+yields are carried forward only from previously known quotes (maximum five
+sessions). Other internal missing prices cause an error. The cash-rate
+proxy is the reported ^IRX 13-week discount yield divided by 100 and 252;
+it approximates daily cash accrual but is **not an executable return**.
+
+**Predeclared experimental protocol.**
+
+1. Candidate family: long-or-cash momentum (20, 60, 120 prior days),
+   long-or-cash mean reversion (3, 5, 10 prior days), and 20-day
+   volatility targeting (10% annualized target, exposure capped at 1).
+   No leverage, shorting, or hyperparameter tuning on final data.
+2. A signal observed after close t can only be executed at close t+1,
+   so its first eligible return is close t+1 to close t+2. This
+   explicitly prevents same-close execution look-ahead.
+3. Assumed trading cost: 5 basis points per one-way unit of portfolio
+   weight changed (an illustrative sum of spreads/slippage/commissions).
+   This cost has **not** been calibrated to actual execution reports.
+4. Choose the sole winner by net Sharpe on **2010–2018 training only**.
+   Report 2019–2022 validation separately, then test the frozen winner
+   once on **2023–2026-08** against the same-ETF buy-and-hold benchmark.
+5. Development-only walk-forward folds each train on the previous
+   five calendar years and test in 2018, 2019, 2020, 2021, or 2022.
+   Also inspect fixed-winner final costs at 0, 5, 10, and 20 bps,
+   with **no strategy reselection**.
+
+The training winner is **volatility_target_20**. All returns below are
+historical modeled net returns; Sharpe subtracts the daily cash proxy.
+
+| Metric | Volatility targeting | SPY buy-and-hold |
+| --- | ---: | ---: |
+| Training annualized return (2010–2018) | 8.16% | 11.64% |
+| Validation annualized return (2019–2022) | 8.78% | 13.09% |
+| **Final annualized return (2023–2026)** | **15.45%** | **23.23%** |
+| Final Sharpe versus cash | 0.991 | 1.160 |
+| Final maximum drawdown | -11.75% | -18.76% |
+| Final annualized volatility | 10.51% | 15.11% |
+
+The strategy reduced drawdown and volatility but **underperformed on
+both risk-adjusted performance and absolute return**. The final 903-day
+holdout's annualized *arithmetic* mean active-minus-benchmark return was
+-7.11 percentage points. A paired 20-day circular block bootstrap (1,500
+repetitions, seed 20261113) yielded a 95% interval of approximately
+-12.45 to -2.42 points. It does **not** account for all search or data
+quality uncertainty, or establish anything about future alpha.
+
+With the chosen rule held fixed, estimated final net CAGR under 0, 5,
+10, and 20 one-way bps was 15.76%, 15.45%, 15.14%, and 14.53%.
+These are sensitivity diagnostics, not new candidate tests.
+
+Reproduce the experiment:
+
+~~~bash
+python3 -m pip install -r requirements.txt
+python3 fetch_market_data.py
+python3 market_backtest.py \
+  --csv data/raw/daily_adjclose.csv \
+  --cost-bps 5 --output experiments/real_market_study.json
+python3 -m unittest discover -s tests -v
+~~~
+
+The final SPY period has now been inspected. **It cannot be reused as
+an independent final test for revised strategies or settings.** Further
+research needs new prospective data or a separately held-out instrument.
 
 ## Repeated synthetic overfitting study
 
@@ -118,14 +205,15 @@ python3 overfitting_study.py \
   call with no dividends and constant volatility and interest rates.
   Numerical agreement with the analytical formula checks the solver,
   not the empirical accuracy of this financial model.
-- **Backtesting uses synthetic returns.** A rule must not use future
-  information and should output net strategy returns accounting for
-  fees, slippage, and financing when used with real prices. Repeatedly
-  tuning against the same holdout invalidates a one-time test. For
-  real research, use realistic market data, execution assumptions,
-  walk-forward testing, and fresh final validation periods. Bonferroni
-  addresses a predeclared set of tests; it cannot repair hidden strategy
-  searches, data leakage, or multiple rounds of post-hoc tuning.
+- **The original backtest and repeated Monte Carlo study use synthetic
+  returns.** The SPY experiment uses historical prices from an external
+  unverified mirror with assumed, not actual, fills/costs. The close-only
+  data cannot validate intraday liquidity, slippage, impact, capacity, or
+  financing, and the modeled T-bill cash proxy is approximate.
+- **The final historical test is no longer untouched.** Future strategy
+  changes must use fresh independent evidence; repeatedly improving a
+  backtest on the same final interval would invalidate the independence.
+  Bonferroni cannot repair hidden search, leakage, or post-hoc changes.
 
-These examples make no claim about a real-money profit, verified market
-alpha, or a demonstrated trading advantage.
+These studies establish no real-money profit, verified market alpha, or
+demonstrated advantage over SPY buy-and-hold.
