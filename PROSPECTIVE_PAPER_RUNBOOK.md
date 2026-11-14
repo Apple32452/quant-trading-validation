@@ -1,6 +1,12 @@
 # Prospective SPY paper simulation: prepared, NOT started
 
-**Current state: CODE READY; NO PROSPECTIVE DATA, NO ORDERS, NO PROFIT CLAIM.**
+**Current state (2026-11-13 after the close): CODE READY, NOT STARTED.**
+The private warmup preparation has 21 consecutive SPY closing prices and
+21 explicit dividend/split entries, but only **20 of the required 21 ^IRX
+cash-yield observations**. Friday's **2026-11-13 final ^IRX close** has not
+been independently verified. No prospective session has been recorded, no
+ledger initialized, no orders placed, and no profit claimed. The partially
+filled warmup CSV and spreadsheet remain **outside this public repository**.
 This separate, prospective stage implements the predeclared continuation of
 the frozen `volatility_target_20` strategy. It does **not** re-analyze the
 already-seen 2023–2026 SPY or QQQ/IWM/EFA outcomes to choose a new rule.
@@ -80,8 +86,9 @@ python3 prospective_paper.py init \
 ```
 
 The initialization refuses a missing/late warmup, nonconsecutive sessions,
-missing dividends/splits/yields, and an existing ledger. It **cannot** be
-completed today before the November 13 close, and we have not done so.
+missing dividends/splits/yields, and an existing ledger. As of the status
+above, **do not initialize**: a November 13 intraday ^IRX quotation or the
+November 12 value is not evidence of the November 13 final close.
 
 For every subsequent NYSE session, once its close is published and **before
 the next exchange session opens**, append exactly one observation. Replace
@@ -147,6 +154,19 @@ continuation; do not silently overwrite missing sessions. The tracker is
 **manual**: it is not an automatically scheduled data collector and has no
 price-service credentials, persistent cloud runner, or live broker access.
 
-**Next operator decision:** supply a trustworthy point-in-time vendor/CSV
-for the 2026-11-13 warmup close and a durable private ledger destination.
-Until then, the experiment remains *prepared*, not *started*.
+**Next operator decision:** verify and archive the final 2026-11-13 ^IRX
+quote, finish and independently check the full private warmup CSV, and choose
+a durable private ledger destination before the Monday 2026-11-16 market
+open. If the required inputs cannot be authenticated by the deadline, the
+experiment must remain *not started*; a later launch would require a
+documented preregistration amendment.
+
+### Optional read-only Alpaca CSV preparation
+
+`collect_alpaca_spy.py` now provides a **read-only**, date-gated Alpaca
+SIP/raw bar downloader and archive validator. It requires separately verified
+per-date dividend, split and ^IRX yield inputs, saves exact raw responses and
+checksums outside Git, and **never** initializes this journal or submits an
+order. See [ALPACA_DATA_RUNBOOK.md](ALPACA_DATA_RUNBOOK.md) for paper-key
+setup, empty supplemental CSV templates, commands and caveats. This is only
+a data preparation tool; the experiment has not yet started.

@@ -14,6 +14,7 @@ dist/
 .venv/
 venv/
 .env
+.env.*
 .DS_Store
 
 # Data and generated results (add small provenance-checked examples selectively)

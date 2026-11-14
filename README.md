@@ -44,12 +44,14 @@ Three corrected, reproducible Python exercises plus four validation studies:
 | factor_alpha.py | Post-hoc SPY market/CAPM, Fama–French 3/5-factor and momentum alpha diagnostics |
 | cross_asset_replication.py | Fixed QQQ/IWM/EFA test with SPY and own-ETF benchmarks and predeclared uncertainty |
 | prospective_paper.py | Forward-only SPY paper ledger with point-in-time input checks, NYSE calendar, audit chain, and final-only inference |
+| collect_alpaca_spy.py | Read-only Alpaca SIP/raw SPY daily bar collector with required independently sourced corporate action/yield fields, hash-archived CSV, and no order API |
 | tests/test_quant_models.py | Automated checks of payoffs, pricing, Sharpe, and holdout isolation |
 | tests/test_overfitting_study.py | Reproducibility, statistics, CSV, and inflation/guard tests |
 | tests/test_market_backtest.py | Price integrity, causal trades, cost accounting, and holdout isolation tests |
 | tests/test_factor_alpha.py | Synthetic factor parsing, exact-date joining, fixed-rule, and HAC regression tests |
 | tests/test_cross_asset_replication.py | Synthetic-only tests of pre-registered QQQ primary inference and benchmark costs |
 | tests/test_prospective_paper.py | Synthetic-only tests of the 2026–2027 exchange clock, causal one-close delay, entry costs, and ledger integrity |
+| tests/test_collect_alpaca_spy.py | Mocked-only tests for read-only Alpaca requests, time gates, explicit supplemental sources, private archives, and corruption checks |
 | experiments/overfitting_summary.csv | Fixed-seed, 500-repetition summary with experimental settings and intervals |
 | experiments/real_market_study.json | Frozen SPY market results, settings, cost sensitivity, and uncertainty |
 | experiments/factor_alpha_diagnostic.json | Factor-adjusted SPY diagnostic, full model results, provenance, and limitations |
@@ -59,6 +61,7 @@ Three corrected, reproducible Python exercises plus four validation studies:
 | INDEPENDENT_REPLICATION_PROTOCOL.md | Immutable *pre-run* QQQ/IWM/EFA and future prospective test specification |
 | REPLICATION_RESULTS.md | Completed replication, failed primary claim, audit trail, caveats, and all outcomes |
 | PROSPECTIVE_PAPER_RUNBOOK.md | Prepared prospective SPY paper experiment, required input feed, start gates, and operator commands |
+| ALPACA_DATA_RUNBOOK.md | How to obtain paper market-data keys, supply dividends/splits/^IRX, and archive verified read-only SPY CSVs |
 | .github/workflows/ci.yml | GitHub Actions checks across Python 3.11, 3.12, and 3.13 |
 
 The research focus is **selection bias in risk-adjusted backtesting**.
@@ -285,6 +288,12 @@ verified warmup CSV and daily point-in-time feed are still required;
 none has been supplied, no ledger has been initialized, and **no real or
 paper orders have been placed**. The manually maintained journal is kept
 outside Git, in `data/prospective/`, and needs durable private backups.
+The [read-only Alpaca collector](ALPACA_DATA_RUNBOOK.md) can download
+unadjusted consolidated SIP daily stock bars and archive them with raw
+responses, source references and SHA-256 checksums. It **requires explicit,
+independently checked dividend, split, and ^IRX inputs** and never sends
+orders or initializes the ledger automatically. No provider credentials or
+actual snapshots have been supplied to this repository.
 The official factor files currently pinned in this project stop before
 the prospective period. Final factor-alpha testing will require the first
 official release covering every later date, archived with its checksum.

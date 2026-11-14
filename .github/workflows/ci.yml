@@ -46,5 +46,9 @@ jobs:
         run: python -m unittest discover -s tests -p test_prospective_paper.py -v
       - name: Prospective tracker compiles without market data
         run: python -m py_compile prospective_paper.py
+      - name: Read-only Alpaca collector mock tests (no keys or real market data)
+        run: python -m unittest discover -s tests -p test_collect_alpaca_spy.py -v
+      - name: Alpaca collector compiles with no credentials
+        run: python -m py_compile collect_alpaca_spy.py
       - name: Small blackjack smoke test
         run: python quant_models.py blackjack --sessions 20 --decks 10

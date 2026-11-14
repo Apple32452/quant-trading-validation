@@ -148,6 +148,12 @@ No feed, ledger, real trades, or paper fills have been initiated. Data
 source selection and subsequent collection are necessary before the
 prospective test can truthfully be called *running*.
 
+The optional [read-only Alpaca collector](ALPACA_DATA_RUNBOOK.md) now
+archives raw SIP bar responses and derived CSVs with checksums, without
+trading endpoints or journal mutations. It still needs genuinely verified
+per-session SPY dividends, split ratios, and ^IRX cash yields supplied
+independently; no live API entitlement or prospective data has been checked.
+
 ## Phase 4: Additional mathematical checks
 
 - Black-Scholes: grid and timestep convergence across strikes, expiries,
